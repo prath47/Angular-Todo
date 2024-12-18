@@ -1,0 +1,27 @@
+<div class="w-full h-full p-4 bg-red-300 grid grid-cols-3 gap-4">
+    @for (todo of todoItems(); track todo._id) {
+    <div class="todo-item bg-white shadow-lg rounded-lg p-4 mb-4 flex flex-col">
+      <div class="flex items-start">
+        <p class="text-lg">{{ todo.title }}</p>
+        <button class="ml-auto" (click)="deleteTodo(todo._id)">
+          <svg
+            class="w-6 h-6 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <p>{{todo.description}}</p>
+    </div>
+    }
+  </div>
+  

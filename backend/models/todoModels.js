@@ -19,7 +19,7 @@ const todoShema = new Schema({
     },
     userEmail: {
         type: String,
-        required: true
+        required: false
     }
 });
 

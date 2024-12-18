@@ -6,7 +6,7 @@ const userRouter = require("./routes/userRoutes");
 const todoRouter = require("./routes/todoRoutes");
 
 monoose
-  .connect("mongodb://host.docker.internal:27017/todo-app")
+  .connect("mongodb://localhost:27017/todo-app")
   .then(() => {
     console.log("Connected to MongoDB");
   })

@@ -3,9 +3,9 @@ const {handleToDoCreate, handleToDoGet, deleteToDo} = require('../controllers/to
 
 const router = Router()
 
-router.get('/', handleToDoGet)
+router.post('/', handleToDoGet)
 router.post('/create', handleToDoCreate)
-router.delete('/delete/:id', deleteToDo)
+router.post('/delete', deleteToDo)
 
 
 module.exports = router
