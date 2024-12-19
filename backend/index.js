@@ -8,7 +8,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 
 monoose
-  .connect("mongodb://localhost:27017/todo-app")
+  .connect("mongodb://mongo:27017/todoapp")
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -21,7 +21,7 @@ monoose
 // app.set("views", path.resolve("./dist/frontend/browser"));
 
 app.use(cors({
-  origin: "http://localhost:4200",
+  origin: "http://localhost:3000/",
   credentials: true
 }));
 app.use(express.json());
