@@ -1,36 +1,34 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FetchTodoService } from '../../services/fetch-todo.service';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FetchTodoService } from './../../services/fetch-todo.service';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-todo-list',
-  imports: [],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.css',
+  styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent implements OnInit {
-  http = inject(HttpClient);
-  todoService = inject(FetchTodoService);
   todoItems = signal([]);
-  ngOnInit(): void {
-    this.todoService
-      .getTodosFromServer()
-      .pipe(
-        catchError((error) => {
-          console.log('Error fetching todos', error);
-          throw error;
-        })
-      )
-      .subscribe((data: any) => {
-        this.todoItems.set(data);
-      });
-  }
 
-  deleteTodo(id): void {
+  constructor(private todoService: FetchTodoService) {}
+  ngOnInit(): void {
+    this.todoService.getTodosFromServer().subscribe({
+      next: (data: any) => {
+        this.todoService.todos.set(data);
+        this.todoItems.set(this.todoService.todos());
+        console.log(this.todoService.todos);
+      },
+      error: (error) => {
+        console.error('Error fetching todos:', error);
+      }
+    });
+  }
+  
+  deleteTodo(id: string): void {
     this.todoService.deleteTodoById(id).subscribe({
       next: (response) => {
-        this.todoItems.set(this.todoItems().filter((todo) => todo.id !== id));
+        this.todoService.todos.set(this.todoItems().filter((todo) => todo.id !== id))
+        this.todoItems.set(this.todoService.todos());
         console.log('Todo deleted:', response);
       },
       error: (error) => {

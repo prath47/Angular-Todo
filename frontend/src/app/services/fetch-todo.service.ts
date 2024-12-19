@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -7,27 +7,22 @@ import { inject, Injectable } from '@angular/core';
 export class FetchTodoService {
   http = inject(HttpClient);
 
+  todos = signal([]);
+
   getTodosFromServer() {
-    return this.http.post('http://localhost:5000/api/todos', {
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTczNDU1NDI0NCwiZXhwIjoxNzM0NTU3ODQ0fQ.poUuQRSV8CJs7W8LjYg6QJ2MJwUydRDOhEH34fkxin0',
-    });
+    return this.http.get('http://localhost:5000/api/todos',{withCredentials: true});  
   }
 
   createTodo(todo) {
     return this.http.post('http://localhost:5000/api/todos/create', {
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTczNDU1NDI0NCwiZXhwIjoxNzM0NTU3ODQ0fQ.poUuQRSV8CJs7W8LjYg6QJ2MJwUydRDOhEH34fkxin0',
-        title: todo.title,
-        description: todo.description,
-      });
-    }
+      title: todo.title,
+      description: todo.description,
+    },{withCredentials: true});
+  }
 
-    deleteTodoById(id) {
-      return this.http.post('http://localhost:5000/api/todos/delete', {
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTczNDU1NDI0NCwiZXhwIjoxNzM0NTU3ODQ0fQ.poUuQRSV8CJs7W8LjYg6QJ2MJwUydRDOhEH34fkxin0',
-          id,  
-    });
+  deleteTodoById(id) {
+    return this.http.post('http://localhost:5000/api/todos/delete',{
+      id
+    },{withCredentials: true});  
   }
 }

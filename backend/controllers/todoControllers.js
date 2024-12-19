@@ -3,11 +3,12 @@ const {verifyToken} = require("../helpers/authentication");
 
 const handleToDoCreate = async (req, res) => {
     try {
-        const {title, description, token} = req.body;
-        // const getUser = await verifyToken(token);
-        // if (!getUser) {
-        //     return res.status(400).json({message: "Not authorized"});
-        // }
+        const {title, description} = req.body;
+        const {token} = req.cookies;
+        const getUser = await verifyToken(token);
+        if (!getUser) {
+            return res.status(400).json({message: "Not authorized"});
+        }
         const newTodo = await todoModel.create({
             title,
             description,
@@ -23,11 +24,11 @@ const handleToDoCreate = async (req, res) => {
 
 const handleToDoGet = async (req, res) => {
     try {
-        // const {token} = req.body;
-        // const getUser = await verifyToken(token);
-        // if (!getUser) {
-        //     return res.status(400).json({message: "Not authorized"});
-        // }
+        const {token} = req.cookies;
+        const getUser = await verifyToken(token);
+        if (!getUser) {
+            return res.status(400).json({message: "Not authorized"});
+        }
         const todos = await todoModel.find({});
         return res.status(200).json(todos);
     } catch (error) {
@@ -37,11 +38,12 @@ const handleToDoGet = async (req, res) => {
 
 const deleteToDo = async (req, res) => {
     try {
-        const {id, token} = req.body;
-        // const getUser = await verifyToken(token);
-        // if (!getUser) {
-        //     return res.status(400).json({message: "Not authorized"});
-        // }
+        const {id} = req.body;
+        const {token} = req.cookies;
+        const getUser = await verifyToken(token);
+        if (!getUser) {
+            return res.status(400).json({message: "Not authorized"});
+        }
         const todo = await todoModel.findByIdAndDelete({_id:id});
         if (!todo) {
             return res.status(404).json({message: "Todo not found"});

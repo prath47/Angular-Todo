@@ -3,7 +3,7 @@ const {handleToDoCreate, handleToDoGet, deleteToDo} = require('../controllers/to
 
 const router = Router()
 
-router.post('/', handleToDoGet)
+router.get('/', handleToDoGet)
 router.post('/create', handleToDoCreate)
 router.post('/delete', deleteToDo)
 
